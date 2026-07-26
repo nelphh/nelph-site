@@ -131,18 +131,22 @@
 
   <section id="contact" class="contact container">
     <h2 class="contact-heading reveal" data-reveal="scroll" data-reveal-group="contact">Let's make some cool stuff. <span class="contact-heading-accent">Get in touch</span></h2>
-    <form class="contact-form reveal" data-reveal="scroll" data-reveal-group="contact">
+    <form class="contact-form reveal" data-reveal="scroll" data-reveal-group="contact" action="https://formspree.io/f/xlgqajyq" method="POST">
       <div class="contact-row">
         <div class="contact-fields">
-          <input class="contact-input" type="text" name="name" placeholder="Full Name" aria-label="Full Name" autocomplete="off">
-          <input class="contact-input" type="email" name="email" placeholder="Email" aria-label="Email" autocomplete="off">
+          <input class="contact-input" type="text" name="name" placeholder="Full Name" aria-label="Full Name" autocomplete="off" required>
+          <input class="contact-input" type="email" name="email" placeholder="Email" aria-label="Email" autocomplete="off" required>
           <input class="contact-input" type="tel" name="phone" placeholder="Phone" aria-label="Phone" autocomplete="off">
         </div>
         <div class="contact-textarea-wrap">
-          <textarea class="contact-input contact-textarea" name="message" placeholder="Tell me about your project" aria-label="Tell me about your project"></textarea>
+          <textarea class="contact-input contact-textarea" name="message" placeholder="Tell me about your project" aria-label="Tell me about your project" required></textarea>
         </div>
       </div>
-      <button class="contact-submit" type="submit">Send</button>
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+      <div class="contact-actions">
+        <p class="contact-status" aria-live="polite"></p>
+        <button class="contact-submit" type="submit">Send</button>
+      </div>
     </form>
   </section>
 </main>

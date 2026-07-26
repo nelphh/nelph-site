@@ -548,7 +548,7 @@ a {
 .contact-input {
   font-family: var(--font-body);
   font-size: 0.95rem;
-  text-transform: uppercase;
+  text-transform: capitalize;
   letter-spacing: 0.02em;
   color: var(--text);
   background: var(--bg);
@@ -560,7 +560,7 @@ a {
 .contact-input::placeholder {
   color: var(--text);
   opacity: 0.5;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 .contact-input:focus-visible {
@@ -579,8 +579,25 @@ a {
   resize: none;
 }
 
+.contact-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.contact-status {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.contact-status.is-success {
+  color: var(--accent);
+}
+
 .contact-submit {
-  align-self: flex-end;
+  margin-left: auto;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.9rem;

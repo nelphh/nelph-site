@@ -80,9 +80,38 @@
     localStorage.setItem("theme", isDark ? "dark" : "light");
   });
 
-  // ---------- Contact form (mock — no backend yet) ----------
-  document.querySelector(".contact-form")?.addEventListener("submit", (e) => {
+  // ---------- Contact form (submits to Formspree) ----------
+  const contactForm = document.querySelector(".contact-form");
+  const contactStatus = contactForm?.querySelector(".contact-status");
+  const contactSubmit = contactForm?.querySelector(".contact-submit");
+
+  contactForm?.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    contactSubmit.disabled = true;
+    contactStatus.textContent = "Sending…";
+    contactStatus.classList.remove("is-success");
+
+    fetch(contactForm.action, {
+      method: "POST",
+      body: new FormData(contactForm),
+      headers: { Accept: "application/json" },
+    })
+      .then((response) => {
+        if (response.ok) {
+          contactStatus.textContent = "Thanks — I'll be in touch soon.";
+          contactStatus.classList.add("is-success");
+          contactForm.reset();
+        } else {
+          contactStatus.textContent = "Something went wrong — please try again or email me directly.";
+        }
+      })
+      .catch(() => {
+        contactStatus.textContent = "Something went wrong — please try again or email me directly.";
+      })
+      .finally(() => {
+        contactSubmit.disabled = false;
+      });
   });
 
   // ---------- Hero mark shies away from the cursor ----------
