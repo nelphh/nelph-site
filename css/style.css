@@ -45,6 +45,7 @@ body {
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: var(--grid-size) var(--grid-size);
+  background-position: center top;
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-body);
@@ -612,5 +613,57 @@ a {
     height: auto;
     min-height: 160px;
   }
+}
+
+/* ---------- 404 page ---------- */
+
+body:has(.notfound) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.notfound {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.notfound-logo {
+  width: clamp(90px, 15vw, 150px);
+  height: auto;
+}
+
+.notfound-logo-dark {
+  display: none;
+}
+
+:root[data-theme="dark"] .notfound-logo-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .notfound-logo-dark {
+  display: block;
+}
+
+.notfound-code {
+  font-family: "obvia-condensed", var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(8rem, 28vw, 17rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.notfound-text {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  margin: 0;
 }
 
