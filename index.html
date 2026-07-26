@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nelph — Sam Flynn, Graphic Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.typekit.net/cey3shf.css">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  (() => {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  })();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner reveal" data-reveal="load" data-reveal-group="header">
+    <a href="#top" class="logo" aria-label="Nelph home">
+      <img class="logo-light" src="assets/logo-black.svg" alt="Nelph" width="200" height="113">
+      <img class="logo-dark" src="assets/logo-white-green.svg" alt="Nelph" width="200" height="113">
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero container" aria-label="Creating creative things">
+    <div class="hero-mark-wrap reveal" data-reveal="load" data-reveal-group="hero">
+      <img class="hero-mark-text hero-mark-text-light" src="assets/cct-text-black.svg" alt="Creating Creative Things" width="463" height="309">
+      <img class="hero-mark-text hero-mark-text-dark" src="assets/cct-text-white.svg" alt="Creating Creative Things" width="463" height="309">
+      <button class="skull-toggle" id="theme-toggle" type="button" role="switch" aria-checked="false" aria-label="Toggle dark mode">
+        <img class="skull-light" src="assets/cct-face-blue.svg" alt="">
+        <img class="skull-dark" src="assets/cct-face-green.svg" alt="">
+      </button>
+    </div>
+  </section>
+
+  <section id="work" class="portfolio container">
+    <div class="portfolio-grid">
+      <div class="portfolio-row is-active-row">
+        <div class="portfolio-item is-active-item portfolio-carousel reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="true" aria-label="Bytestock delivery van mockup">
+          <img class="portfolio-carousel-img is-visible" src="assets/Delivery Van Mockup.jpg" alt="">
+          <img class="portfolio-carousel-img" src="assets/Bytestock brochure.jpg" alt="">
+          <img class="portfolio-carousel-img" src="assets/Bytestock socials.jpg" alt="">
+          <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="portfolio-nav portfolio-nav-next" type="button" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="portfolio-item portfolio-carousel reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="false" aria-label="England vs Croatia poster design">
+          <img class="portfolio-carousel-img is-visible" src="assets/Eng G1.jpg" alt="">
+          <img class="portfolio-carousel-img" src="assets/Burrell V1.png" alt="">
+          <img class="portfolio-carousel-img" src="assets/Haaland.jpg" alt="">
+          <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="portfolio-nav portfolio-nav-next" type="button" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="portfolio-row">
+        <div class="portfolio-item portfolio-carousel reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="false" aria-label="Refurbished IT hardware guide illustration">
+          <img class="portfolio-carousel-img is-visible" src="assets/Recycle.jpg" alt="">
+          <img class="portfolio-carousel-img portfolio-img-left" src="assets/LADS Device mockup.jpg" alt="">
+          <img class="portfolio-carousel-img" src="assets/0NpT13p2ypm0RL4OF18htagbY.webp" alt="">
+          <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="portfolio-nav portfolio-nav-next" type="button" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="portfolio-item portfolio-carousel reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="false" aria-label="Step Flex apparel mockup">
+          <img class="portfolio-carousel-img is-visible" src="assets/SNF-Mockup.jpg" alt="">
+          <img class="portfolio-carousel-img" src="assets/SNF-Bottle.jpg" alt="">
+          <img class="portfolio-carousel-img" src="assets/9563-2-poster-mockup-outdoor-wall.jpg" alt="">
+          <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="portfolio-nav portfolio-nav-next" type="button" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about container">
+    <div class="about-media reveal" data-reveal="scroll" data-reveal-group="about">
+      <img class="about-img about-img-light" src="assets/Portrait blue.png" alt="Portrait of Sam Flynn" width="2475" height="2475">
+      <img class="about-img about-img-dark" src="assets/Portrait green.png" alt="Portrait of Sam Flynn" width="2475" height="2475">
+      <img class="about-sticker about-sticker-light" src="assets/Artboard 5.svg" alt="" aria-hidden="true">
+      <img class="about-sticker about-sticker-dark" src="assets/Artboard 5 green.svg" alt="" aria-hidden="true">
+    </div>
+    <div class="about-copy reveal" data-reveal="scroll" data-reveal-group="about">
+      <div class="about-copy-inner">
+      <div class="about-heading-row">
+        <h2 class="about-heading">Here's What I Do</h2>
+        <div class="social-links">
+          <a class="social-link" href="https://www.linkedin.com/in/samflynn97/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a class="social-link" href="https://www.instagram.com/nelph" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a class="social-link" href="https://open.spotify.com/user/1162450680?si=8e8948b650654175" target="_blank" rel="noopener" aria-label="Spotify">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.36-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.24 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          </a>
+        </div>
+      </div>
+      <p class="about-text">I'm a <strong>Graphic Designer</strong> with a degree in Graphic Design and Visual Communication from the <strong>University of West London</strong>, driven by one clear philosophy: <strong>creating creative things</strong>.</p>
+      <p class="about-text">I design bold, story-led work across print, digital and motion, spanning <strong>branding, social media, motion graphics and WordPress web design</strong>. Rooted in strong typography, considered layout and striking visuals, my work is influenced by sports, sci-fi and music, bringing energy and personality to every project.</p>
+      <p class="about-text">With expertise in <strong>Adobe Creative Cloud, Figma and HTML/CSS</strong>, plus hands-on production experience, I turn ideas into engaging visual experiences that stand out and connect.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact container">
+    <h2 class="contact-heading reveal" data-reveal="scroll" data-reveal-group="contact">Let's make some cool stuff. <span class="contact-heading-accent">Get in touch</span></h2>
+    <form class="contact-form reveal" data-reveal="scroll" data-reveal-group="contact">
+      <div class="contact-row">
+        <div class="contact-fields">
+          <input class="contact-input" type="text" name="name" placeholder="Full Name" aria-label="Full Name" autocomplete="off">
+          <input class="contact-input" type="email" name="email" placeholder="Email" aria-label="Email" autocomplete="off">
+          <input class="contact-input" type="tel" name="phone" placeholder="Phone" aria-label="Phone" autocomplete="off">
+        </div>
+        <div class="contact-textarea-wrap">
+          <textarea class="contact-input contact-textarea" name="message" placeholder="Tell me about your project" aria-label="Tell me about your project"></textarea>
+        </div>
+      </div>
+      <button class="contact-submit" type="submit">Send</button>
+    </form>
+  </section>
+</main>
+
+<script src="js/script.js"></script>
+</body>
+</html>
