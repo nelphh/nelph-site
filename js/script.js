@@ -5,13 +5,34 @@
     [...row.querySelectorAll(".portfolio-item")].map((item) => ({ row, item }))
   );
 
-  // Whatever's marked active in the markup is the "resting" tile — hover/focus
-  // temporarily activates another, and leaving the grid returns to this one.
+  // Whatever's marked active in the markup is the starting tile — hovering
+  // another one takes over, and stays put once the cursor moves away.
   const defaultRow = document.querySelector(".portfolio-row.is-active-row") || rows[0];
   const defaultItem = document.querySelector(".portfolio-item.is-active-item") || pairs[0]?.item;
 
   let activeRow = defaultRow;
   let activeItem = defaultItem;
+
+  // The active tile is forced to a 1:1 square by pinning its flex-basis (in
+  // px) to its row's target height. flex-grow itself is transitioned in CSS,
+  // so reading it (or the row's live height) back mid-transition gives an
+  // animated in-between value, not the destination — that caused a visible
+  // dip before the row caught up. These constants mirror the CSS values
+  // directly so the target can be predicted from the very first frame.
+  const ACTIVE_ROW_GROW = 2.2; // .portfolio-row.is-active-row's flex-grow
+  const BASE_ROW_GROW = 1; // .portfolio-row's base flex-grow
+
+  const computeTargetRowHeight = () => {
+    const gridRect = grid.getBoundingClientRect();
+    const rowGap = parseFloat(getComputedStyle(grid).rowGap) || 0;
+    const availableHeight = gridRect.height - rowGap * (rows.length - 1);
+    const totalGrow = ACTIVE_ROW_GROW + (rows.length - 1) * BASE_ROW_GROW;
+    return (availableHeight * ACTIVE_ROW_GROW) / totalGrow;
+  };
+
+  const squareActiveItem = (item) => {
+    item.style.flexBasis = `${computeTargetRowHeight()}px`;
+  };
 
   const setActive = (row, item) => {
     if (item === activeItem) return;
@@ -19,10 +40,12 @@
     if (activeItem) {
       activeItem.classList.remove("is-active-item");
       activeItem.setAttribute("aria-expanded", "false");
+      activeItem.style.flexBasis = "";
     }
     row.classList.add("is-active-row");
     item.classList.add("is-active-item");
     item.setAttribute("aria-expanded", "true");
+    squareActiveItem(item);
     activeRow = row;
     activeItem = item;
   };
@@ -31,9 +54,21 @@
 
   const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
+  // A short debounce before committing a hover switch — while a tile is
+  // resizing under the cursor, the boundary can sweep across it and fire
+  // mouseenter on a neighbor with no real mouse movement. Requiring the
+  // cursor to settle briefly avoids the resulting flicker/oscillation.
+  let hoverTimer = null;
+
   pairs.forEach(({ row, item }) => {
     if (canHover) {
-      item.addEventListener("mouseenter", () => setActive(row, item));
+      item.addEventListener("mouseenter", () => {
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(() => setActive(row, item), 90);
+      });
+      item.addEventListener("mouseleave", () => {
+        clearTimeout(hoverTimer);
+      });
       item.addEventListener("focus", () => setActive(row, item));
     } else {
       item.addEventListener("click", () => setActive(row, item));
@@ -47,13 +82,6 @@
     });
   });
 
-  if (canHover) {
-    grid.addEventListener("mouseleave", revertToDefault);
-    grid.addEventListener("focusout", (e) => {
-      if (!grid.contains(e.relatedTarget)) revertToDefault();
-    });
-  }
-
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") revertToDefault();
   });
@@ -61,6 +89,15 @@
   document.addEventListener("click", (e) => {
     if (!grid.contains(e.target)) revertToDefault();
   });
+
+  // Only re-squares on actual viewport/grid resize, not our own row-height
+  // transition — using the live contentRect here (instead of the same
+  // target-based math as above) would re-introduce the dip, since it fires
+  // on every frame of that transition with the row's still-animating height.
+  const rowResizeObserver = new ResizeObserver(() => {
+    if (activeItem) squareActiveItem(activeItem);
+  });
+  rowResizeObserver.observe(grid);
 
   // ---------- Theme toggle (the skull in the hero mark) ----------
   // Light/dark logo and hero-mark swapping is handled entirely by CSS off the

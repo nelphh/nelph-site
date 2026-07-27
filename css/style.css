@@ -261,7 +261,7 @@ a {
   border-radius: 25px;
   overflow: hidden;
   cursor: pointer;
-  transition: flex-grow 0.45s ease-in-out, background-color 0.3s ease;
+  transition: flex-grow 0.45s ease-in-out, flex-basis 0.45s ease-in-out, background-color 0.3s ease;
 }
 
 .portfolio-item img,
@@ -287,11 +287,11 @@ a {
 }
 
 .portfolio-row.is-active-row {
-  flex-grow: 3.3;
+  flex-grow: 2.2;
 }
 
 .portfolio-item.is-active-item {
-  flex-grow: 3.3;
+  flex-grow: 0;
   background: var(--grey-hover);
 }
 
@@ -378,7 +378,7 @@ a {
 
 @media (max-width: 640px) {
   .portfolio-grid {
-    aspect-ratio: 1 / 2;
+    aspect-ratio: 7 / 8;
   }
 }
 
