@@ -351,31 +351,6 @@ a {
   transform: translateY(-50%) scale(1.1);
 }
 
-.portfolio-placeholder-inner {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  color: var(--text);
-  opacity: 0.35;
-}
-
-.portfolio-placeholder-icon {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  line-height: 1;
-  font-weight: 700;
-}
-
-.portfolio-placeholder-label {
-  font-size: clamp(0.75rem, 1.2vw, 0.95rem);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
 @media (max-width: 640px) {
   .portfolio-grid {
     aspect-ratio: 7 / 8;
@@ -396,7 +371,7 @@ a {
   flex: 1 1 0;
   min-width: 0;
   aspect-ratio: 1 / 1;
-  border: 2px solid var(--text);
+  border: 2px solid var(--accent);
   border-radius: 25px;
   overflow: hidden;
 }
