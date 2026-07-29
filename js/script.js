@@ -34,6 +34,12 @@
     item.style.flexBasis = `${computeTargetRowHeight()}px`;
   };
 
+  // Below the hover breakpoint the gallery switches to a single stacked
+  // column sized by CSS aspect-ratio (see the mobile media query) rather
+  // than the flex-basis trick below — setting flexBasis there would stomp
+  // that mechanism via an inline style, so it's skipped in that layout.
+  const isMobileLayout = window.matchMedia("(max-width: 640px)").matches;
+
   const setActive = (row, item) => {
     if (item === activeItem) return;
     if (activeRow) activeRow.classList.remove("is-active-row");
@@ -45,7 +51,7 @@
     row.classList.add("is-active-row");
     item.classList.add("is-active-item");
     item.setAttribute("aria-expanded", "true");
-    squareActiveItem(item);
+    if (!isMobileLayout) squareActiveItem(item);
     activeRow = row;
     activeItem = item;
   };
@@ -95,9 +101,35 @@
   // target-based math as above) would re-introduce the dip, since it fires
   // on every frame of that transition with the row's still-animating height.
   const rowResizeObserver = new ResizeObserver(() => {
-    if (activeItem) squareActiveItem(activeItem);
+    if (activeItem && !isMobileLayout) squareActiveItem(activeItem);
   });
   rowResizeObserver.observe(grid);
+
+  // ---------- Mobile: scroll-driven active tile ----------
+  // On the stacked single-column layout there's no hover to drive the
+  // expand/collapse, so instead whichever tile currently sits in a band
+  // near the top of the viewport becomes active — the classic "scrollspy"
+  // pattern. Debounced like the hover switch above: a tile expanding or
+  // collapsing changes the page's height, which can otherwise cause a
+  // neighbor to flicker in and out of the trigger band as things resettle.
+  if (isMobileLayout) {
+    let scrollTimer = null;
+
+    const scrollSpyObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const pair = pairs.find(({ item }) => item === entry.target);
+          if (!pair) return;
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(() => setActive(pair.row, pair.item), 100);
+        });
+      },
+      { rootMargin: "0px 0px -70% 0px", threshold: 0 }
+    );
+
+    pairs.forEach(({ item }) => scrollSpyObserver.observe(item));
+  }
 
   // ---------- Theme toggle (the skull in the hero mark) ----------
   // Light/dark logo and hero-mark swapping is handled entirely by CSS off the

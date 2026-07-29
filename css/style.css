@@ -240,6 +240,12 @@ a {
   flex-direction: column;
   gap: 20px;
   aspect-ratio: 2 / 3;
+  /* A tile resizing (either the hover-driven or mobile scroll-driven
+     expand/collapse) shouldn't make the browser's scroll-anchoring nudge
+     the page to compensate — on mobile that nudge was dragging a
+     just-deactivated tile back into the scrollspy's trigger band and
+     re-activating it. */
+  overflow-anchor: none;
 }
 
 .portfolio-row {
@@ -352,8 +358,30 @@ a {
 }
 
 @media (max-width: 640px) {
+  /* Below the hover breakpoint the gallery drops the paired hover-expand
+     grid entirely: rows are unwrapped (display: contents) so every tile
+     becomes a single stacked column, and the "active" tile — now driven by
+     scroll position instead of hover — expands from a short preview strip
+     to a full square via a transitioned aspect-ratio rather than the
+     flex-basis trick used on desktop, since there's no sibling row height
+     to fight with here. */
   .portfolio-grid {
-    aspect-ratio: 7 / 8;
+    aspect-ratio: auto;
+  }
+
+  .portfolio-row {
+    display: contents;
+  }
+
+  .portfolio-item {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 2.4 / 1;
+    transition: aspect-ratio 0.45s ease-in-out, background-color 0.3s ease;
+  }
+
+  .portfolio-item.is-active-item {
+    aspect-ratio: 1 / 1;
   }
 }
 
