@@ -363,6 +363,86 @@ a {
   pointer-events: auto;
 }
 
+.portfolio-view-project {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bg);
+  background: var(--accent);
+  border-radius: 10px;
+  padding: 0.65rem 1.5rem;
+  text-decoration: none;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+.portfolio-item.is-active-item .portfolio-view-project {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.portfolio-view-project:hover,
+.portfolio-view-project:focus-visible {
+  transform: translateX(-50%) scale(1.05);
+}
+
+/* On devices with a real mouse, the pinned button is replaced by a
+   separate cursor-following circle (.portfolio-cursor-view, appended to
+   body — see below) — this link stays in the DOM only so it's still
+   reachable/activatable by keyboard, hence pointer-events:none rather than
+   just hiding it outright. */
+@media (hover: hover) and (pointer: fine) {
+  .portfolio-item.is-active-item .portfolio-view-project {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .portfolio-item.is-active-item {
+    cursor: none;
+  }
+}
+
+/* A single shared element (not one per tile) so `position: fixed` is
+   reliably viewport-relative — see the comment in script.js on why a
+   per-tile element broke that — and so it's never clipped by a tile's own
+   overflow:hidden near the edges. */
+.portfolio-cursor-view {
+  position: fixed;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bg);
+  background: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 100;
+}
+
+.portfolio-cursor-view.is-visible {
+  opacity: 1;
+}
+
 .portfolio-nav:hover,
 .portfolio-nav:focus-visible {
   background: rgba(0, 0, 0, 0.65);
@@ -780,6 +860,116 @@ body:has(.notfound) {
   .footer-inner {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+/* ---------- Project pages ---------- */
+
+.project-main {
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+
+.project-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  text-decoration: none;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  transition: color 0.2s ease;
+}
+
+.project-back:hover,
+.project-back:focus-visible {
+  color: var(--accent);
+}
+
+.project-header {
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.project-title {
+  font-family: "obvia-condensed", var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+}
+
+.project-subtitle {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: var(--text);
+  opacity: 0.7;
+  max-width: 55ch;
+  margin: 0;
+}
+
+.project-hero {
+  border-radius: 25px;
+  overflow: hidden;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--grey);
+}
+
+.project-hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.project-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.project-gallery-item {
+  border-radius: 25px;
+  overflow: hidden;
+  background: var(--grey);
+}
+
+.project-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.project-sections {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  padding-bottom: clamp(3rem, 8vw, 6rem);
+}
+
+.project-section-heading {
+  font-family: "obvia-condensed", var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.75rem;
+}
+
+.project-section-text {
+  font-size: clamp(1rem, 1.3vw, 1.05rem);
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .project-gallery,
+  .project-sections {
+    grid-template-columns: 1fr;
   }
 }
 

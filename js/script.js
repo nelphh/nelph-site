@@ -66,6 +66,26 @@
   // cursor to settle briefly avoids the resulting flicker/oscillation.
   let hoverTimer = null;
 
+  // On hover-capable devices, hovering a tile that's already active swaps
+  // the cursor for a small circular "View" label — one shared element,
+  // appended directly to <body>, rather than a per-tile element positioned
+  // with `position: fixed`. Fixed positioning is only viewport-relative if
+  // no ancestor has a `transform` in effect, but `.reveal.is-visible` (on
+  // the tile itself) sets `transform: translateY(0)` once revealed, which
+  // silently makes that tile the containing block instead — the circle
+  // would then track the cursor at an offset equal to the tile's own
+  // position rather than sitting under it. A single body-level element
+  // sidesteps that, and also avoids being clipped by the tile's own
+  // overflow:hidden when the cursor nears its edge.
+  let cursorView = null;
+  if (canHover) {
+    cursorView = document.createElement("div");
+    cursorView.className = "portfolio-cursor-view";
+    cursorView.textContent = "View";
+    cursorView.setAttribute("aria-hidden", "true");
+    document.body.appendChild(cursorView);
+  }
+
   pairs.forEach(({ row, item }) => {
     if (canHover) {
       item.addEventListener("mouseenter", () => {
@@ -76,6 +96,28 @@
         clearTimeout(hoverTimer);
       });
       item.addEventListener("focus", () => setActive(row, item));
+
+      // The "View Project" link stays in the DOM (see CSS, under the same
+      // hover media feature) purely so it's still reachable/activatable by
+      // keyboard even though the mouse never hits it there — the visible
+      // cursor-following circle above is a separate, decorative element.
+      const viewLink = item.querySelector(".portfolio-view-project");
+      if (viewLink) {
+        viewLink.textContent = "View";
+        item.addEventListener("mousemove", (e) => {
+          if (!item.classList.contains("is-active-item")) return;
+          cursorView.style.left = `${e.clientX}px`;
+          cursorView.style.top = `${e.clientY}px`;
+          cursorView.classList.add("is-visible");
+        });
+        item.addEventListener("mouseleave", () => {
+          cursorView.classList.remove("is-visible");
+        });
+        item.addEventListener("click", (e) => {
+          if (e.target.closest(".portfolio-nav")) return;
+          if (item.classList.contains("is-active-item")) window.location.href = viewLink.href;
+        });
+      }
     } else {
       item.addEventListener("click", () => setActive(row, item));
     }
@@ -93,17 +135,21 @@
   });
 
   document.addEventListener("click", (e) => {
-    if (!grid.contains(e.target)) revertToDefault();
+    if (grid && !grid.contains(e.target)) revertToDefault();
   });
 
   // Only re-squares on actual viewport/grid resize, not our own row-height
   // transition — using the live contentRect here (instead of the same
   // target-based math as above) would re-introduce the dip, since it fires
   // on every frame of that transition with the row's still-animating height.
-  const rowResizeObserver = new ResizeObserver(() => {
-    if (activeItem && !isMobileLayout) squareActiveItem(activeItem);
-  });
-  rowResizeObserver.observe(grid);
+  // Guarded throughout: pages without a portfolio grid (project pages) reuse
+  // this same script, so `grid` may simply not exist there.
+  if (grid) {
+    const rowResizeObserver = new ResizeObserver(() => {
+      if (activeItem && !isMobileLayout) squareActiveItem(activeItem);
+    });
+    rowResizeObserver.observe(grid);
+  }
 
   // ---------- Mobile: fully paginated gallery ----------
   // Native scroll + CSS scroll-snap (even with scroll-snap-stop) still let a
@@ -113,7 +159,7 @@
   // over the gallery is captured entirely: each deliberate swipe advances
   // exactly one tile, and the resulting scroll position is predicted and
   // applied directly rather than left to scrollIntoView.
-  if (isMobileLayout) {
+  if (isMobileLayout && grid) {
     const tileList = pairs;
     const getCurrentIndex = () => {
       const index = tileList.findIndex(({ item }) => item === activeItem);

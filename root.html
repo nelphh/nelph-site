@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Root — Nelph</title>
+<meta name="description" content="Root: grocery delivery app UI design and social branding by Sam Flynn (Nelph).">
+<link rel="canonical" href="https://nelph.co.uk/root.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon-light.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.typekit.net/cey3shf.css">
+<link rel="stylesheet" href="css/style.css">
+<script>
+  (() => {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  })();
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo" aria-label="Nelph home">
+      <img class="logo-light" src="assets/logo-black.svg" alt="Nelph" width="200" height="113">
+      <img class="logo-dark" src="assets/logo-white-green.svg" alt="Nelph" width="200" height="113">
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="project-main container">
+  <a class="project-back" href="index.html#work">&larr; Back to Work</a>
+
+  <div class="project-header reveal" data-reveal="load" data-reveal-group="project">
+    <h1 class="project-title">Root</h1>
+    <p class="project-subtitle">App UI design and social branding for a grocery delivery service.</p>
+  </div>
+
+  <div class="project-hero reveal" data-reveal="load" data-reveal-group="project">
+    <img src="assets/9061-01-iphone-16-mockup.jpg" alt="Root grocery app UI design on iPhone mockup">
+  </div>
+
+  <div class="project-gallery">
+    <div class="project-gallery-item reveal" data-reveal="scroll" data-reveal-group="project-gallery">
+      <img src="assets/Root - Social 1.jpg" alt="Root grocery app social media graphic">
+    </div>
+    <div class="project-gallery-item reveal" data-reveal="scroll" data-reveal-group="project-gallery">
+      <img src="assets/Root - Social 2.jpg" alt="Root grocery app branding social graphic">
+    </div>
+  </div>
+
+  <div class="project-sections">
+    <section class="project-section reveal" data-reveal="scroll" data-reveal-group="project-sections">
+      <h2 class="project-section-heading">The Brief</h2>
+      <p class="project-section-text">Placeholder — an outline of the brief, the client's goals and the problem this project needed to solve will go here.</p>
+    </section>
+    <section class="project-section reveal" data-reveal="scroll" data-reveal-group="project-sections">
+      <h2 class="project-section-heading">The Process</h2>
+      <p class="project-section-text">Placeholder — a look at the creative process, key decisions, tools used and how the concept developed will go here.</p>
+    </section>
+    <section class="project-section reveal" data-reveal="scroll" data-reveal-group="project-sections">
+      <h2 class="project-section-heading">The Outcome</h2>
+      <p class="project-section-text">Placeholder — the final result, how it was delivered and the impact it had will go here.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer container">
+  <div class="footer-inner">
+    <p class="footer-tagline">
+      Creating Creative Things
+      <img class="footer-face footer-face-light" src="assets/cct-face-white.svg" alt="">
+      <img class="footer-face footer-face-dark" src="assets/cct-face-black.svg" alt="">
+    </p>
+    <p class="footer-copyright">&copy; 2026 Nelph. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
