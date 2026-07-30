@@ -360,11 +360,13 @@ a {
 @media (max-width: 640px) {
   /* Below the hover breakpoint the gallery drops the paired hover-expand
      grid entirely: rows are unwrapped (display: contents) so every tile
-     becomes a single stacked column, and the "active" tile — now driven by
-     scroll position instead of hover — expands from a short preview strip
-     to a full square via a transitioned aspect-ratio rather than the
-     flex-basis trick used on desktop, since there's no sibling row height
-     to fight with here. */
+     becomes a single stacked column, and the "active" tile expands from a
+     short preview strip to a full square via a transitioned aspect-ratio
+     rather than the flex-basis trick used on desktop, since there's no
+     sibling row height to fight with here. Paging between tiles is fully
+     JS-controlled (see script.js) rather than native scroll + CSS snap —
+     that combination still let a hard flick skip several tiles or trigger
+     off a barely-there movement, even with scroll-snap-stop. */
   .portfolio-grid {
     aspect-ratio: auto;
   }
@@ -373,33 +375,10 @@ a {
     display: contents;
   }
 
-  /* Scroll snap makes the gallery step through tiles one at a time instead
-     of letting a flick sail past several — only tiles (plus the header,
-     below) opt in via scroll-snap-align, so the rest of the page scrolls
-     completely freely. */
-  html {
-    scroll-snap-type: y mandatory;
-  }
-
-  /* Without a snap point at the very top of the page, some browsers treat
-     position 0 as "not a valid resting place" the instant scroll-snap is
-     active and immediately jump down to the nearest one (the first gallery
-     tile) on load. Marking the header itself as a snap point gives the top
-     of the page somewhere valid to rest, so it stays put until scrolled. */
-  .site-header {
-    scroll-snap-align: start;
-  }
-
   .portfolio-item {
     flex: 0 0 auto;
     width: 100%;
     aspect-ratio: 2.4 / 1;
-    scroll-snap-align: start;
-    /* Without this, a hard/fast flick can still carry momentum past
-       several snap points before settling — "mandatory" only guarantees
-       the final rest position lands on *a* snap point, not that every one
-       gets a chance to be seen. This forces a full stop at each tile. */
-    scroll-snap-stop: always;
     transition: aspect-ratio 0.45s ease-in-out, background-color 0.3s ease;
   }
 

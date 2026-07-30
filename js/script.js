@@ -105,30 +105,106 @@
   });
   rowResizeObserver.observe(grid);
 
-  // ---------- Mobile: scroll-driven active tile ----------
-  // On the stacked single-column layout there's no hover to drive the
-  // expand/collapse, so instead whichever tile currently sits in a band
-  // near the top of the viewport becomes active — the classic "scrollspy"
-  // pattern. Debounced like the hover switch above: a tile expanding or
-  // collapsing changes the page's height, which can otherwise cause a
-  // neighbor to flicker in and out of the trigger band as things resettle.
+  // ---------- Mobile: fully paginated gallery ----------
+  // Native scroll + CSS scroll-snap (even with scroll-snap-stop) still let a
+  // hard flick skip several tiles, or a barely-there movement trigger a
+  // change — snap can only correct where a gesture the browser already ran
+  // ends up, not how far it's allowed to travel. So on mobile, scrolling
+  // over the gallery is captured entirely: each deliberate swipe advances
+  // exactly one tile, with a smooth scroll-into-view handling the motion.
   if (isMobileLayout) {
-    let scrollTimer = null;
+    const tileList = pairs;
+    const getCurrentIndex = () => {
+      const index = tileList.findIndex(({ item }) => item === activeItem);
+      return index === -1 ? 0 : index;
+    };
 
-    const scrollSpyObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const pair = pairs.find(({ item }) => item === entry.target);
-          if (!pair) return;
-          clearTimeout(scrollTimer);
-          scrollTimer = setTimeout(() => setActive(pair.row, pair.item), 100);
-        });
+    const goToIndex = (index) => {
+      if (index < 0 || index >= tileList.length) return;
+      const { row, item } = tileList[index];
+      setActive(row, item);
+      item.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    // How far (px) a touch has to travel before it's treated as a real
+    // swipe rather than incidental jitter — below this, nothing happens.
+    const SWIPE_THRESHOLD = 40;
+    // How far (px) before we've even decided which direction the gesture
+    // is going, and therefore whether to capture it at all. Keeping this
+    // small means we only "give" a few pixels before locking the page.
+    const DIRECTION_LOCK = 10;
+
+    let touchStartY = null;
+    let directionDecided = false;
+    let capturing = false;
+
+    grid.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartY = e.touches[0].clientY;
+        directionDecided = false;
+        capturing = false;
       },
-      { rootMargin: "0px 0px -70% 0px", threshold: 0 }
+      { passive: true }
     );
 
-    pairs.forEach(({ item }) => scrollSpyObserver.observe(item));
+    grid.addEventListener(
+      "touchmove",
+      (e) => {
+        if (touchStartY === null) return;
+        const deltaY = touchStartY - e.touches[0].clientY;
+
+        if (!directionDecided) {
+          if (Math.abs(deltaY) < DIRECTION_LOCK) return;
+          directionDecided = true;
+          const wantsForward = deltaY > 0;
+          const index = getCurrentIndex();
+          const atBoundary = wantsForward ? index >= tileList.length - 1 : index <= 0;
+          // At an edge, release the gesture to native scroll so it flows
+          // into the header above or the About section below as normal.
+          capturing = !atBoundary;
+        }
+
+        if (capturing) e.preventDefault();
+      },
+      { passive: false }
+    );
+
+    grid.addEventListener("touchend", (e) => {
+      if (touchStartY === null) return;
+      const deltaY = touchStartY - e.changedTouches[0].clientY;
+      touchStartY = null;
+      if (!capturing) return;
+      if (Math.abs(deltaY) < SWIPE_THRESHOLD) return;
+      goToIndex(getCurrentIndex() + (deltaY > 0 ? 1 : -1));
+    });
+
+    // Trackpad/mouse wheel fallback (e.g. a narrow desktop window). Wheel
+    // events arrive as a rapid stream of small deltas during one gesture,
+    // so they're accumulated and treated as a single step once they settle.
+    let wheelAccum = 0;
+    let wheelTimer = null;
+
+    grid.addEventListener(
+      "wheel",
+      (e) => {
+        const wantsForward = e.deltaY > 0;
+        const index = getCurrentIndex();
+        const atBoundary = wantsForward ? index >= tileList.length - 1 : index <= 0;
+        if (atBoundary) return;
+
+        e.preventDefault();
+        wheelAccum += e.deltaY;
+        clearTimeout(wheelTimer);
+        wheelTimer = setTimeout(() => {
+          if (Math.abs(wheelAccum) > SWIPE_THRESHOLD) {
+            goToIndex(getCurrentIndex() + (wheelAccum > 0 ? 1 : -1));
+          }
+          wheelAccum = 0;
+        }, 60);
+      },
+      { passive: false }
+    );
   }
 
   // ---------- Theme toggle (the skull in the hero mark) ----------
