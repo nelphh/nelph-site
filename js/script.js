@@ -111,7 +111,8 @@
   // change — snap can only correct where a gesture the browser already ran
   // ends up, not how far it's allowed to travel. So on mobile, scrolling
   // over the gallery is captured entirely: each deliberate swipe advances
-  // exactly one tile, with a smooth scroll-into-view handling the motion.
+  // exactly one tile, and the resulting scroll position is predicted and
+  // applied directly rather than left to scrollIntoView.
   if (isMobileLayout) {
     const tileList = pairs;
     const getCurrentIndex = () => {
@@ -138,6 +139,19 @@
       el.classList.add("is-visible");
       void el.offsetHeight;
       el.style.transition = prevTransition;
+    };
+
+    // Marks a scroll as one *we* triggered via goToIndex, so the global
+    // safety net below (which watches for scrolls landing mid-gallery from
+    // anywhere) doesn't mistake our own corrective scroll for a rogue one.
+    let isOwnScroll = false;
+    let ownScrollTimer = null;
+    const markOwnScroll = () => {
+      isOwnScroll = true;
+      clearTimeout(ownScrollTimer);
+      ownScrollTimer = setTimeout(() => {
+        isOwnScroll = false;
+      }, 700);
     };
 
     const goToIndex = (index) => {
@@ -176,6 +190,7 @@
       const targetScrollY = window.scrollY + targetTopFinal - desiredTop;
 
       setActive(row, item);
+      markOwnScroll();
       window.scrollTo({ top: targetScrollY, behavior: "smooth" });
     };
 
@@ -257,6 +272,46 @@
         }, 60);
       },
       { passive: false }
+    );
+
+    // Global safety net: a swipe that starts outside the grid (touch events
+    // stay bound to whatever element they started on, so the handlers above
+    // never see a gesture that began elsewhere) or a fast flick whose
+    // momentum keeps carrying the page after the finger lifts can otherwise
+    // sail straight through — or past — the gallery in one motion, skipping
+    // the one-tile-at-a-time pagination entirely. Watch scroll position
+    // directly instead: on every scroll tick, check which tile (if any) is
+    // centered in the viewport, and if it's drifted away from the tracked
+    // active tile, snap-correct — capped to one step, same as a deliberate
+    // swipe, so a rogue jump of several tiles gets pulled back to just one.
+    // Calling scrollTo mid-flight also cancels the browser's own momentum,
+    // so this doubles as a hard brake on any runaway scroll through here.
+    const tileIndexAtViewportCenter = () => {
+      const centerY = window.innerHeight / 2;
+      for (let i = 0; i < tileList.length; i++) {
+        const r = tileList[i].item.getBoundingClientRect();
+        if (r.top <= centerY && r.bottom >= centerY) return i;
+      }
+      return null;
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (isOwnScroll) return;
+        const gridRect = grid.getBoundingClientRect();
+        if (gridRect.bottom <= 0 || gridRect.top >= window.innerHeight) return;
+
+        const centeredIndex = tileIndexAtViewportCenter();
+        if (centeredIndex === null) return;
+
+        const currentIndex = getCurrentIndex();
+        const diff = centeredIndex - currentIndex;
+        if (diff === 0) return;
+
+        goToIndex(currentIndex + Math.sign(diff));
+      },
+      { passive: true }
     );
   }
 
