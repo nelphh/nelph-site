@@ -457,5 +457,61 @@
       e.stopPropagation();
       show(current + 1);
     });
+
+    // On mobile, a horizontal swipe over the tile also steps through its
+    // images. The grid (see the mobile pagination block above) has its own
+    // touch handlers for paging *between* tiles, based purely on vertical
+    // movement — since events bubble from here up to the grid, a gesture
+    // only needs to decide once which axis it belongs to: claim horizontal
+    // ones outright (stopPropagation so the grid never sees them), and
+    // leave vertical ones untouched so tile paging keeps working as before.
+    if (isMobileLayout) {
+      const SWIPE_THRESHOLD = 40;
+      const DIRECTION_LOCK = 10;
+      let startX = null;
+      let startY = null;
+      let isHorizontal = null;
+
+      item.addEventListener(
+        "touchstart",
+        (e) => {
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          isHorizontal = null;
+        },
+        { passive: true }
+      );
+
+      item.addEventListener(
+        "touchmove",
+        (e) => {
+          if (startX === null) return;
+          const dx = e.touches[0].clientX - startX;
+          const dy = e.touches[0].clientY - startY;
+
+          if (isHorizontal === null) {
+            if (Math.hypot(dx, dy) < DIRECTION_LOCK) return;
+            isHorizontal = Math.abs(dx) > Math.abs(dy);
+          }
+
+          if (isHorizontal) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        },
+        { passive: false }
+      );
+
+      item.addEventListener("touchend", (e) => {
+        const wasHorizontal = isHorizontal;
+        const dx = startX === null ? 0 : e.changedTouches[0].clientX - startX;
+        startX = null;
+
+        if (!wasHorizontal) return;
+        e.stopPropagation();
+        if (Math.abs(dx) < SWIPE_THRESHOLD) return;
+        show(dx > 0 ? current - 1 : current + 1);
+      });
+    }
   });
 })();
