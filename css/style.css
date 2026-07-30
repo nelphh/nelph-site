@@ -373,10 +373,18 @@ a {
     display: contents;
   }
 
+  /* Scroll snap makes the gallery step through tiles one at a time instead
+     of letting a flick sail past several — only tiles opt in via
+     scroll-snap-align, so the rest of the page scrolls completely freely. */
+  html {
+    scroll-snap-type: y mandatory;
+  }
+
   .portfolio-item {
     flex: 0 0 auto;
     width: 100%;
     aspect-ratio: 2.4 / 1;
+    scroll-snap-align: start;
     transition: aspect-ratio 0.45s ease-in-out, background-color 0.3s ease;
   }
 
