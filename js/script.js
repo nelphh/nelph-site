@@ -119,11 +119,41 @@
       return index === -1 ? 0 : index;
     };
 
+    // Matches .portfolio-item's collapsed aspect-ratio in the mobile media
+    // query — used to predict a tile's collapsed height without waiting for
+    // its transition to finish.
+    const COLLAPSED_ASPECT_RATIO = 2.4;
+
     const goToIndex = (index) => {
       if (index < 0 || index >= tileList.length) return;
+      const currentIndex = getCurrentIndex();
       const { row, item } = tileList[index];
+
+      // Calling scrollIntoView() right after setActive() reads the tile's
+      // position *before* its expand transition has actually run — it's
+      // still at its collapsed height at that instant — so it scrolled to
+      // fit the small version, and the tile then grew past the viewport as
+      // it expanded. Instead, predict where its top edge will end up once
+      // everything has settled, and scroll there directly so the expand
+      // and the scroll land in the same place together.
+      const targetTopNow = item.getBoundingClientRect().top;
+      let targetTopFinal = targetTopNow;
+
+      // Only matters moving forward: the tile collapsing back down is the
+      // one currently active, which sits *above* the target, so its
+      // shrinking pulls the target upward by however much it shrinks.
+      // Moving backward, the tile collapsing is *below* the target, which
+      // doesn't move the target's own top edge at all.
+      if (index > currentIndex && activeItem) {
+        const prevRect = activeItem.getBoundingClientRect();
+        const prevCollapsedHeight = prevRect.width / COLLAPSED_ASPECT_RATIO;
+        targetTopFinal -= prevRect.height - prevCollapsedHeight;
+      }
+
+      const targetScrollY = window.scrollY + targetTopFinal;
+
       setActive(row, item);
-      item.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.scrollTo({ top: targetScrollY, behavior: "smooth" });
     };
 
     // How far (px) a touch has to travel before it's treated as a real
