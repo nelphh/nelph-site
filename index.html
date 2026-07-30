@@ -4,6 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nelph — Sam Flynn, Graphic Designer</title>
+<meta name="description" content="Nelph is Sam Flynn, a freelance graphic designer specialising in branding, motion graphics, social media design and WordPress web design.">
+<link rel="canonical" href="https://nelph.co.uk/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nelph">
+<meta property="og:title" content="Nelph — Sam Flynn, Graphic Designer">
+<meta property="og:description" content="Freelance graphic designer specialising in branding, motion graphics, social media design and WordPress web design.">
+<meta property="og:url" content="https://nelph.co.uk/">
+<meta property="og:image" content="https://nelph.co.uk/assets/Portrait%20blue.png">
+<meta property="og:image:width" content="2475">
+<meta property="og:image:height" content="2475">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nelph — Sam Flynn, Graphic Designer">
+<meta name="twitter:description" content="Freelance graphic designer specialising in branding, motion graphics, social media design and WordPress web design.">
+<meta name="twitter:image" content="https://nelph.co.uk/assets/Portrait%20blue.png">
+
 <link rel="icon" type="image/svg+xml" href="assets/favicon-light.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +31,27 @@
     const saved = localStorage.getItem("theme");
     if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
   })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sam Flynn",
+  "alternateName": "Nelph",
+  "url": "https://nelph.co.uk/",
+  "image": "https://nelph.co.uk/assets/Portrait%20blue.png",
+  "jobTitle": "Graphic Designer",
+  "description": "Freelance graphic designer specialising in branding, motion graphics, social media design and WordPress web design.",
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "University of West London"
+  },
+  "knowsAbout": ["Branding", "Motion Graphics", "Social Media Design", "WordPress Web Design", "Adobe Creative Cloud", "Figma"],
+  "sameAs": [
+    "https://www.linkedin.com/in/samflynn97/",
+    "https://www.instagram.com/nelph"
+  ]
+}
 </script>
 </head>
 <body>
@@ -35,6 +72,7 @@
 
 <main id="top">
   <section class="hero container" aria-label="Creating creative things">
+    <h1 class="visually-hidden">Sam Flynn — Nelph: Freelance Graphic Designer specialising in Branding, Motion Graphics, Social Media Design &amp; WordPress Web Design</h1>
     <div class="hero-mark-wrap reveal" data-reveal="load" data-reveal-group="hero">
       <img class="hero-mark-text hero-mark-text-light" src="assets/cct-text-black.svg" alt="Creating Creative Things" width="463" height="309">
       <img class="hero-mark-text hero-mark-text-dark" src="assets/cct-text-white.svg" alt="Creating Creative Things" width="463" height="309">
@@ -49,9 +87,9 @@
     <div class="portfolio-grid">
       <div class="portfolio-row is-active-row">
         <div class="portfolio-item is-active-item portfolio-carousel reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="true" aria-label="Bytestock delivery van mockup">
-          <img class="portfolio-carousel-img is-visible" src="assets/Delivery Van Mockup.jpg" alt="">
-          <img class="portfolio-carousel-img" src="assets/Bytestock brochure.jpg" alt="">
-          <img class="portfolio-carousel-img" src="assets/Bytestock socials.jpg" alt="">
+          <img class="portfolio-carousel-img is-visible" src="assets/Delivery Van Mockup.jpg" alt="Bytestock delivery van livery design">
+          <img class="portfolio-carousel-img" src="assets/Bytestock brochure.jpg" alt="Bytestock brochure branding design">
+          <img class="portfolio-carousel-img" src="assets/Bytestock socials.jpg" alt="Bytestock social media graphics">
           <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="Previous image">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
@@ -60,9 +98,9 @@
           </button>
         </div>
         <div class="portfolio-item portfolio-carousel reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="false" aria-label="Root grocery app and branding">
-          <img class="portfolio-carousel-img is-visible" src="assets/9061-01-iphone-16-mockup.jpg" alt="">
-          <img class="portfolio-carousel-img" src="assets/Root - Social 1.jpg" alt="">
-          <img class="portfolio-carousel-img" src="assets/Root - Social 2.jpg" alt="">
+          <img class="portfolio-carousel-img is-visible" src="assets/9061-01-iphone-16-mockup.jpg" alt="Root grocery app UI design on iPhone mockup">
+          <img class="portfolio-carousel-img" src="assets/Root - Social 1.jpg" alt="Root grocery app social media graphic">
+          <img class="portfolio-carousel-img" src="assets/Root - Social 2.jpg" alt="Root grocery app branding social graphic">
           <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="Previous image">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
@@ -73,9 +111,9 @@
       </div>
       <div class="portfolio-row">
         <div class="portfolio-item portfolio-carousel reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="false" aria-label="Step Flex apparel mockup">
-          <img class="portfolio-carousel-img is-visible" src="assets/SNF-Mockup.jpg" alt="">
-          <img class="portfolio-carousel-img" src="assets/SNF-Bottle.jpg" alt="">
-          <img class="portfolio-carousel-img" src="assets/9563-2-poster-mockup-outdoor-wall.jpg" alt="">
+          <img class="portfolio-carousel-img is-visible" src="assets/SNF-Mockup.jpg" alt="Step Flex apparel branding mockup">
+          <img class="portfolio-carousel-img" src="assets/SNF-Bottle.jpg" alt="Step Flex bottle branding design">
+          <img class="portfolio-carousel-img" src="assets/9563-2-poster-mockup-outdoor-wall.jpg" alt="Step Flex outdoor poster advertising design">
           <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="Previous image">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
@@ -84,14 +122,14 @@
           </button>
         </div>
         <div class="portfolio-item reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="false" aria-label="Sentinel craft lager branding">
-          <img src="assets/Sentinel can mockup.jpg" alt="">
+          <img src="assets/Sentinel can mockup.jpg" alt="Sentinel craft lager can branding design">
         </div>
       </div>
       <div class="portfolio-row">
         <div class="portfolio-item portfolio-carousel reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="false" aria-label="Refurbished IT hardware guide illustration">
-          <img class="portfolio-carousel-img is-visible" src="assets/Recycle.jpg" alt="">
-          <img class="portfolio-carousel-img portfolio-img-left" src="assets/LADS Device mockup.jpg" alt="">
-          <img class="portfolio-carousel-img" src="assets/0NpT13p2ypm0RL4OF18htagbY.webp" alt="">
+          <img class="portfolio-carousel-img is-visible" src="assets/Recycle.jpg" alt="Refurbished IT hardware guide illustration">
+          <img class="portfolio-carousel-img portfolio-img-left" src="assets/LADS Device mockup.jpg" alt="Refurbished IT hardware device mockup design">
+          <img class="portfolio-carousel-img" src="assets/0NpT13p2ypm0RL4OF18htagbY.webp" alt="Refurbished IT hardware branding graphic">
           <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="Previous image">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
@@ -100,9 +138,9 @@
           </button>
         </div>
         <div class="portfolio-item portfolio-carousel reveal" data-reveal="scroll" data-reveal-group="work" role="button" tabindex="0" aria-expanded="false" aria-label="England vs Croatia poster design">
-          <img class="portfolio-carousel-img is-visible" src="assets/Eng G1.jpg" alt="">
-          <img class="portfolio-carousel-img" src="assets/Burrell V1.png" alt="">
-          <img class="portfolio-carousel-img" src="assets/Haaland.jpg" alt="">
+          <img class="portfolio-carousel-img is-visible" src="assets/Eng G1.jpg" alt="England vs Croatia football poster illustration">
+          <img class="portfolio-carousel-img" src="assets/Burrell V1.png" alt="Burrell sports illustration poster design">
+          <img class="portfolio-carousel-img" src="assets/Haaland.jpg" alt="Haaland sports illustration poster design">
           <button class="portfolio-nav portfolio-nav-prev" type="button" aria-label="Previous image">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
