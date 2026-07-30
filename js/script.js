@@ -124,10 +124,27 @@
     // its transition to finish.
     const COLLAPSED_ASPECT_RATIO = 2.4;
 
+    // A tile that hasn't scrolled into view yet still sits under the
+    // load/scroll-reveal transform (translateY(28px), see .reveal in
+    // style.css) until its own IntersectionObserver fires. That transform
+    // shows up in getBoundingClientRect() without affecting layout, which
+    // was throwing off the position math below by exactly 28px whenever a
+    // tile got paginated to before it had naturally scrolled into view.
+    // Snap it to its revealed state instantly (no fade) before measuring.
+    const forceReveal = (el) => {
+      if (!el || el.classList.contains("is-visible")) return;
+      const prevTransition = el.style.transition;
+      el.style.transition = "none";
+      el.classList.add("is-visible");
+      void el.offsetHeight;
+      el.style.transition = prevTransition;
+    };
+
     const goToIndex = (index) => {
       if (index < 0 || index >= tileList.length) return;
       const currentIndex = getCurrentIndex();
       const { row, item } = tileList[index];
+      forceReveal(item);
 
       // Calling scrollIntoView() right after setActive() reads the tile's
       // position *before* its expand transition has actually run — it's
@@ -136,8 +153,8 @@
       // it expanded. Instead, predict where its top edge will end up once
       // everything has settled, and scroll there directly so the expand
       // and the scroll land in the same place together.
-      const targetTopNow = item.getBoundingClientRect().top;
-      let targetTopFinal = targetTopNow;
+      const itemRect = item.getBoundingClientRect();
+      let targetTopFinal = itemRect.top;
 
       // Only matters moving forward: the tile collapsing back down is the
       // one currently active, which sits *above* the target, so its
@@ -150,7 +167,13 @@
         targetTopFinal -= prevRect.height - prevCollapsedHeight;
       }
 
-      const targetScrollY = window.scrollY + targetTopFinal;
+      // The tile's width stays fixed at 100% throughout, so its expanded
+      // (square) height equals its current width — use that to land the
+      // tile centered in the viewport rather than pinned to the top.
+      const finalHeight = itemRect.width;
+      const desiredTop = (window.innerHeight - finalHeight) / 2;
+
+      const targetScrollY = window.scrollY + targetTopFinal - desiredTop;
 
       setActive(row, item);
       window.scrollTo({ top: targetScrollY, behavior: "smooth" });
