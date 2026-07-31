@@ -83,6 +83,37 @@ a {
   padding-inline: var(--gutter);
 }
 
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--bg);
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  padding: 0.85rem 2.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.button:hover,
+.button:focus-visible {
+  transform: scale(1.05);
+  color: var(--bg);
+}
+
+.button svg {
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+}
+
 /* ---------- Load-in & scroll reveal animations ---------- */
 
 @media (prefers-reduced-motion: no-preference) {
@@ -910,6 +941,10 @@ body:has(.notfound) {
   opacity: 0.85;
   max-width: 65ch;
   margin: 0;
+}
+
+.project-header .button {
+  margin-top: clamp(1.25rem, 3vw, 2rem);
 }
 
 .project-hero {
