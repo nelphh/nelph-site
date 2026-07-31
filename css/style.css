@@ -670,7 +670,6 @@ a {
   line-height: 1.1;
   text-transform: uppercase;
   color: var(--text);
-  white-space: nowrap;
   margin: 0;
 }
 
@@ -770,10 +769,6 @@ a {
 }
 
 @media (max-width: 640px) {
-  .contact-heading {
-    white-space: normal;
-  }
-
   .contact-row {
     flex-direction: column;
   }
