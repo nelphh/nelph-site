@@ -485,15 +485,15 @@
 
   // ---------- Portfolio image carousels (prev/next arrows on expanded tiles) ----------
   document.querySelectorAll(".portfolio-carousel").forEach((item) => {
+    const track = item.querySelector(".portfolio-carousel-track");
     const images = [...item.querySelectorAll(".portfolio-carousel-img")];
-    if (images.length < 2) return;
+    if (!track || images.length < 2) return;
 
     let current = Math.max(0, images.findIndex((img) => img.classList.contains("is-visible")));
 
     const show = (nextIndex) => {
-      images[current].classList.remove("is-visible");
       current = (nextIndex + images.length) % images.length;
-      images[current].classList.add("is-visible");
+      track.style.transform = `translateX(-${current * 100}%)`;
     };
 
     item.querySelector(".portfolio-nav-prev")?.addEventListener("click", (e) => {
