@@ -106,6 +106,10 @@
         viewLink.textContent = "View";
         item.addEventListener("mousemove", (e) => {
           if (!item.classList.contains("is-active-item")) return;
+          if (e.target.closest(".portfolio-nav")) {
+            cursorView.classList.remove("is-visible");
+            return;
+          }
           cursorView.style.left = `${e.clientX}px`;
           cursorView.style.top = `${e.clientY}px`;
           cursorView.classList.add("is-visible");
