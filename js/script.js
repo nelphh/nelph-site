@@ -489,11 +489,50 @@
     const images = [...item.querySelectorAll(".portfolio-carousel-img")];
     if (!track || images.length < 2) return;
 
-    let current = Math.max(0, images.findIndex((img) => img.classList.contains("is-visible")));
+    // Clone the first/last slide onto the opposite end of the track so
+    // wrapping past either edge keeps sliding in the same direction instead
+    // of rewinding back across the whole set. Once the clone's transition
+    // finishes, transitionend below jumps (transition-less, so invisibly)
+    // to the matching real slide at the other end.
+    const firstClone = images[0].cloneNode(true);
+    const lastClone = images[images.length - 1].cloneNode(true);
+    firstClone.setAttribute("aria-hidden", "true");
+    lastClone.setAttribute("aria-hidden", "true");
+    track.appendChild(firstClone);
+    track.insertBefore(lastClone, images[0]);
+
+    const count = images.length;
+    // +1: every real slide sits one position later than before, since the
+    // prepended clone now occupies slot 0.
+    let current = Math.max(0, images.findIndex((img) => img.classList.contains("is-visible"))) + 1;
+    let isLocked = false;
+
+    const setTransform = (index) => {
+      track.style.transform = `translateX(-${index * 100}%)`;
+    };
+
+    // Set the initial position without animating it in.
+    track.style.transition = "none";
+    setTransform(current);
+    void track.offsetWidth;
+    track.style.transition = "";
+
+    track.addEventListener("transitionend", (e) => {
+      if (e.propertyName !== "transform") return;
+      if (current !== 0 && current !== count + 1) return;
+      track.style.transition = "none";
+      current = current === 0 ? count : 1;
+      setTransform(current);
+      void track.offsetWidth;
+      track.style.transition = "";
+      isLocked = false;
+    });
 
     const show = (nextIndex) => {
-      current = (nextIndex + images.length) % images.length;
-      track.style.transform = `translateX(-${current * 100}%)`;
+      if (isLocked) return;
+      current = nextIndex;
+      if (current === 0 || current === count + 1) isLocked = true;
+      setTransform(current);
     };
 
     item.querySelector(".portfolio-nav-prev")?.addEventListener("click", (e) => {
